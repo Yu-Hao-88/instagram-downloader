@@ -35,6 +35,24 @@ python version: 3.12
 - path_dir: str, 指定的下載路徑
 - path_prefix(optional): str, 指定的檔名 prefix
 
-## config 說明
+## download_through_bookmark
+使用教學:
+- 透過 `pip install -r requirements.txt` 安裝所需套件
+- 將 config/bookmark.ini.example 複製成 config/bookmark.ini
+- 在 Chrome 網頁上打 chrome://version/ 查看設定檔路徑，此路徑下會有一個 Bookmark，將其路徑填到 path 中
+- 執行 `python download_through_bookmark.py download --path_dir="{儲存路徑}"`
+- 檔案會儲存在指定的資料夾下並以檔名: `{path_prefix}-YYMMDD-{index}.jpg`
+
+參數說明:
+- path_dir: str, 指定的下載路徑
+
+## 額外 config 說明
 `prefix_config.ini.example`
 若有設定 prefix_config 則會自動判斷 hash tag 有沒有包含後面的字，自動帶入檔案前綴，用逗號分隔每個字串
+
+python instagram_post_photos_downloader.py download --post_url=https://www.instagram.com/p/C5S1tLLPQT6/ --path_prefix="WonYoung" --path_dir="C:\Users\UHao\Downloads\IVE\OFFICIAL"
+
+python x_post_photos_downloader.py download --post_url="https://twitter.com/silky_ls/status/1774811559317147911" --path_dir="C:\Users\UHao\Downloads\IVE\test"
+python x_post_photos_downloader.py download --post_url="https://twitter.com/silky_ls/status/1775025332007125281" --path_dir="C:\Users\UHao\Downloads\IVE\test"
+
+python download_through_bookmark.py download --path_dir="C:\Users\UHao\Downloads\IVE\test"

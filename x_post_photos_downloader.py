@@ -4,7 +4,6 @@ import json
 import re
 import logging
 from datetime import datetime
-from pathlib import Path
 
 import fire
 import requests
@@ -12,16 +11,16 @@ from configobj import ConfigObj
 
 from libs.utils.save_photo import save_photo
 from libs.utils.get_image_file_index import get_image_file_index
+from libs.utils.get_path_prefix import get_path_prefix
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(filename)s %(levelname)s %(message)s"
 )
 
 RE_TWEET_ID_PATTERN = r"/status/(\d+)"
-PREFIX_CONFIG_PATH = "./config/prefix_config.ini"
 
 
-class XPhotosDownloader:
+class XPostPhotosDownloader:
     def __init__(self, path_dir: str) -> None:
         self.__x_config = ConfigObj(
             "./config/x_config.ini",
@@ -30,6 +29,14 @@ class XPhotosDownloader:
         self.__path_dir = path_dir
         # 取得路徑下的檔案路徑的所有照片計算 index
         self.__file_index = get_image_file_index(self.__path_dir)
+
+    def get_file_index(self) -> dict:
+        """取得 file_index"""
+        return self.__file_index
+
+    def set_file_index(self, file_index: dict) -> None:
+        """設定 file_index"""
+        self.__file_index = file_index
 
     def download(
         self,
@@ -64,7 +71,7 @@ class XPhotosDownloader:
         logging.info(f"media_url_https: {media_url_https}")
         hash_tags = self.__get_hash_tag(result)
         logging.info(f"hash tags: {hash_tags}")
-        path_prefix = self.__get_path_prefix(path_prefix, hash_tags)
+        path_prefix = get_path_prefix(path_prefix, hash_tags)
         logging.info(f"path_prefix: {path_prefix}")
         file_timestamp = self.__get_file_timestamp(result)
         logging.info(f"file_timestamp: {file_timestamp}")
@@ -168,21 +175,6 @@ class XPhotosDownloader:
                 f"出現了意料之外的 __typename: {result["data"]["tweetResult"]["result"]["__typename"]}"
             )
 
-    def __get_path_prefix(self, path_prefix: str, hash_tags: list) -> str:
-        """取得 path_prefix"""
-        if path_prefix:
-            return path_prefix
-
-        if Path(PREFIX_CONFIG_PATH).exists():
-            config: dict = ConfigObj(PREFIX_CONFIG_PATH, encoding="utf-8")[
-                "PREFIX_CONFIG"
-            ]
-            for prefix, prefix_accept in config.items():
-                if bool(set(prefix_accept) & set(hash_tags)):
-                    return prefix
-
-        return ""
-
     def __get_file_timestamp(self, result: dict) -> str:
         """取得檔案名的 timestamp YYMMDD"""
         if (
@@ -249,4 +241,4 @@ class XPhotosDownloader:
 
 
 if __name__ == "__main__":
-    fire.Fire(XPhotosDownloader)
+    fire.Fire(XPostPhotosDownloader)
