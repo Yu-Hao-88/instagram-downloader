@@ -105,7 +105,7 @@ class InstagramPostPhotosDownloader:
             self.__file_index[file_name] += 1
             index = self.__file_index[file_name]
         else:
-            index = 0
+            index = self.__file_index[file_name] = 0
 
         return f"{self.__path_dir}/{file_name}-{index}.jpg"
 
