@@ -64,7 +64,7 @@ class XPostPhotosDownloader:
         )
         assert (
             response.status_code == 200
-        ), f"GET response not 200, get response: {response.json()}"
+        ), f"GET response not 200, get response: {response}, {response.text}"
         result = response.json()
 
         if result["data"]["tweetResult"]["result"]["__typename"] == "TweetUnavailable":

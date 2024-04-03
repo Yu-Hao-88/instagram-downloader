@@ -65,7 +65,7 @@ class InstagramPostPhotosDownloader:
         )
         assert (
             response.status_code == 200
-        ), f"GET response not 200, get response: {response.json()}"
+        ), f"GET response not 200, get response: {response}, {response.text}"
 
         # 從回傳中取得最大解析度的照片
         item = response.json()["items"].pop()
