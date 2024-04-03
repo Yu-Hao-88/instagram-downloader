@@ -67,6 +67,10 @@ class XPostPhotosDownloader:
         ), f"GET response not 200, get response: {response.json()}"
         result = response.json()
 
+        if result["data"]["tweetResult"]["result"]["__typename"] == "TweetUnavailable":
+            logging.info("出現 TweetUnavailable，跳過這筆")
+            return
+
         media_url_https = self.__get_media_url_https(result)
         logging.info(f"media_url_https: {media_url_https}")
         hash_tags = self.__get_hash_tag(result)
