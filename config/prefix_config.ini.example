@@ -1,0 +1,3 @@
+[PREFIX_CONFIG]
+    # 會自動判斷 hash tag 有沒有包含後面的字，自動帶入 檔案前綴
+    YuJin = ANYUJIN,YUJIN

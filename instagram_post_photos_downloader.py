@@ -7,6 +7,8 @@ import fire
 import requests
 from configobj import ConfigObj
 
+from libs.utils.save_photo import save_photo
+
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s %(filename)s %(levelname)s %(message)s"
 )
@@ -70,7 +72,7 @@ class InstagramPostPhotosDownloader:
             )
             logging.info("Image url: %s", url)
             logging.info("Save To: %s", local_path)
-            self.__save_photo(url, local_path)
+            save_photo(url, local_path)
 
     def __get_local_path(
         self,
@@ -84,12 +86,6 @@ class InstagramPostPhotosDownloader:
         path_prefix = f"{path_prefix}-" if path_prefix else ""
         date = datetime.fromtimestamp(timestamp=timestamp / 1000000).strftime("%y%m%d")
         return f"{path_dir}/{path_prefix}{date}-{index}.jpg"
-
-    def __save_photo(self, image_url: str, local_path: str) -> None:
-        """將單一張照片儲存到本地"""
-        img_data = requests.get(image_url).content
-        with open(local_path, "wb") as handler:
-            handler.write(img_data)
 
 
 if __name__ == "__main__":
