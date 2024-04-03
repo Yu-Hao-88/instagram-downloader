@@ -1,3 +1,4 @@
 fire==0.6.0
 requests==2.31.0
 configobj==5.0.8
+backoff==2.2.1

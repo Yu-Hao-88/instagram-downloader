@@ -7,6 +7,7 @@ from datetime import datetime
 
 import fire
 import requests
+import backoff
 from configobj import ConfigObj
 
 from libs.utils.save_photo import save_photo
@@ -38,6 +39,7 @@ class XPostPhotosDownloader:
         """設定 file_index"""
         self.__file_index = file_index
 
+    @backoff.on_exception(backoff.constant, ValueError, max_tries=10, interval=60 * 5)
     def download(
         self,
         post_url: str,
@@ -62,6 +64,11 @@ class XPostPhotosDownloader:
             headers=self.__get_header(),
             timeout=5,
         )
+
+        # 每次觸發 429 就觸發 ValueError 並 5 分鐘後 retry
+        if response.status_code == 429:
+            raise ValueError(f"get response: {response}, {response.text}")
+
         assert (
             response.status_code == 200
         ), f"GET response not 200, get response: {response}, {response.text}"
