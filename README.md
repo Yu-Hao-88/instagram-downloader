@@ -38,9 +38,3 @@ python version: 3.12
 ## config 說明
 `prefix_config.ini.example`
 若有設定 prefix_config 則會自動判斷 hash tag 有沒有包含後面的字，自動帶入檔案前綴，用逗號分隔每個字串
-
-
-python instagram_post_photos_downloader.py download --post_url=https://www.instagram.com/p/C5MxpPkSoli/ --path_prefix="Rei" --path_dir="C:\Users\UHao\Downloads\IVE\OFFICIAL"
-
-python x_post_photos_downloader.py download --post_url="https://twitter.com/silky_ls/status/1774811559317147911" --path_dir="C:\Users\UHao\Downloads\IVE\test"
-python x_post_photos_downloader.py download --post_url="https://twitter.com/silky_ls/status/1775025332007125281" --path_dir="C:\Users\UHao\Downloads\IVE\test"
