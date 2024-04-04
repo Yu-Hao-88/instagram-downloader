@@ -74,8 +74,12 @@ class XPostPhotosDownloader:
         ), f"GET response not 200, get response: {response}, {response.text}"
         result = response.json()
 
-        if result["data"]["tweetResult"]["result"]["__typename"] == "TweetUnavailable":
-            logging.info("出現 TweetUnavailable，跳過這筆")
+        if (
+            not result["data"]["tweetResult"]
+            or result["data"]["tweetResult"]["result"]["__typename"]
+            == "TweetUnavailable"
+        ):
+            logging.info(f"{tweet_id} 貼文已被移除")
             return
 
         media_url_https = self.__get_media_url_https(result)
