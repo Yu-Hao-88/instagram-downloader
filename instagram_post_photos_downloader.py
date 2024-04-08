@@ -32,7 +32,7 @@ class InstagramPostPhotosDownloader:
         return {
             "Cookie": (
                 f"ds_user_id={ig_config["ds_user_id"]}; "
-                f'shbid="{ig_config["shbid"]}"'
+                f'sessionid="{ig_config["sessionid"]}"'
             )
         }
 
